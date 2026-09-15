@@ -29,9 +29,19 @@ const app = express();
             throw new Error("ACCESS DENITED !");
         };
 
-        // app.get("/worng", (req,res)=>{
-        //     abcd=abcd;
-        // })
+        app.get("/random", (req,res)=>{
+    res.send("this is random page");
+})
+
+
+        app.get("/err", (req,res)=>{
+            abcd=abcd;
+        });
+
+        app.use((err, req,res, next) =>{
+            console.log("------ERROR-----");
+            next();   
+        });
 
     app.use((req, res, next)=>{
         console.log("I am only for random");
@@ -46,15 +56,7 @@ app.get("/",(req,res)=>{
     res.send("HI, I am root." );
 });
 
-app.get("/random", (req,res)=>{
-    res.send("this is random page");
-})
 
-//   app.use((req,res, next)=>{
-//         req.time = Date.now();
-//         console.log(req.method,req.hostname, req.path, req.time);
-//         next();
-//     });
 
 app.listen(8080,()=>{
     console.log("server listening to port 8080");
