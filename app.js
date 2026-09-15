@@ -12,12 +12,35 @@ const app = express();
 //     next();
     
 // });
-    app.use((req,res, next)=>{
-        req.time = Date.now();
-        console.log(req.method,req.hostname, req.path, req.time);
+
+
+// logger
+    // app.use((req,res, next)=>{
+    //     req.time = Date.now();
+    //     console.log(req.method,req.hostname, req.path, req.time);
+    //     next();
+    // });
+
+        const checkToken= (req,res,next)=>{
+            let{ token} = req.query;
+            if (token === "giveaccess"){
+                next();
+            }
+            throw new Error("ACCESS DENITED !");
+        };
+
+        // app.get("/worng", (req,res)=>{
+        //     abcd=abcd;
+        // })
+
+    app.use((req, res, next)=>{
+        console.log("I am only for random");
         next();
     });
 
+    app.get("/api", checkToken,(req,res)=>{
+        res.send("data");
+    });
 
 app.get("/",(req,res)=>{
     res.send("HI, I am root." );
@@ -27,12 +50,12 @@ app.get("/random", (req,res)=>{
     res.send("this is random page");
 })
 
-  app.use((req,res, next)=>{
-        req.time = Date.now();
-        console.log(req.method,req.hostname, req.path, req.time);
-        next();
-    });
-    
+//   app.use((req,res, next)=>{
+//         req.time = Date.now();
+//         console.log(req.method,req.hostname, req.path, req.time);
+//         next();
+//     });
+
 app.listen(8080,()=>{
     console.log("server listening to port 8080");
 });  
